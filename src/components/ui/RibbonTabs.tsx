@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { useRibbonStore } from '@/store/useRibbonStore';
+import { useRibbonStore } from '@/stores/useRibbonStore';
+import { useZoomStore } from '@/stores/useZoomStore';
 
 interface RibbonTabsProps {
   items: {
@@ -11,7 +12,8 @@ interface RibbonTabsProps {
 
 const RibbonTabs: React.FC<RibbonTabsProps> = ({ items: initialItems, onTabChange }) => {
   const [items, setItems] = useState(initialItems);
-  const { setActiveTab } = useRibbonStore();
+  const { setActiveTab, isPinned, togglePinned, setTemporaryVisible } = useRibbonStore();
+  const { setZoomLevel } = useZoomStore();
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const [isMoving, setIsMoving] = useState(false);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -42,6 +44,19 @@ const RibbonTabs: React.FC<RibbonTabsProps> = ({ items: initialItems, onTabChang
     setItems(newItems);
     onTabChange?.(items[clickedIndex].label);
     setActiveTab(clickedIndex);
+
+    if (!isPinned) {
+      setTemporaryVisible(true);
+    }
+  };
+
+  const handleDoubleClick = () => {
+    togglePinned();
+    if (isPinned) {
+      setZoomLevel(48);
+    } else {
+      setZoomLevel(62);
+    }
   };
 
   return (
@@ -52,6 +67,7 @@ const RibbonTabs: React.FC<RibbonTabsProps> = ({ items: initialItems, onTabChang
             key={index}
             ref={(el) => (buttonRefs.current[index] = el)}
             onClick={() => handleClick(index)}
+            onDoubleClick={handleDoubleClick}
             className="relative flex flex-col items-center justify-center rounded-md px-2 py-1 text-sm transition-colors duration-100 hover:bg-zinc-200/80"
           >
             <span className={`${item.isActive ? 'font-bold text-zinc-800' : 'font-medium text-zinc-500'}`}>

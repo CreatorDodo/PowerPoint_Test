@@ -1,14 +1,35 @@
 import { FileToolBar, HomeToolBar, InsertToolBar, SlideShowToolBar, HelpToolBar } from '@/components/ui/toolBar';
-import { useRibbonStore } from '@/store/useRibbonStore';
+import { useRibbonStore } from '@/stores/useRibbonStore';
+import { useEffect } from 'react';
 
 interface HeaderProps {
   children?: React.ReactNode;
 }
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
-  const { activeTab } = useRibbonStore();
+  const { activeTab, isPinned, isTemporaryVisible, setTemporaryVisible } = useRibbonStore();
+
+  useEffect(() => {
+    if (!isPinned) {
+      const handleClickOutside = (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        if (!target.closest('header')) {
+          setTemporaryVisible(false);
+        }
+      };
+
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [isPinned, setTemporaryVisible]);
+
+  const shouldShowToolbar = isPinned || isTemporaryVisible;
 
   const renderToolBar = () => {
+    if (!shouldShowToolbar) {
+      return null;
+    }
+
     switch (activeTab) {
       case 0:
         return <FileToolBar />;
@@ -36,7 +57,11 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
         </h1>
       </div>
       {children}
-      <div>{renderToolBar()}</div>
+      <div
+        className={`relative transition-all duration-200 ease-in-out ${shouldShowToolbar ? 'opacity-100' : 'opacity-0'}`}
+      >
+        {renderToolBar()}
+      </div>
     </header>
   );
 };

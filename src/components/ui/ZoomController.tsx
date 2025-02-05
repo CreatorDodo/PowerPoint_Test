@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
-import { useZoomStore } from '@/store/useZoomStore';
+import { useZoomStore } from '@/stores/useZoomStore';
 
 const ZoomController: React.FC = () => {
   const { zoomLevel, setZoomLevel } = useZoomStore();
@@ -10,13 +10,15 @@ const ZoomController: React.FC = () => {
     const handleWheel = (e: WheelEvent) => {
       if (e.ctrlKey) {
         e.preventDefault();
-        adjustZoom(e.deltaY > 0 ? -1 : 1);
+        const delta = -e.deltaY * 0.0005;
+        const newZoom = Math.min(Math.max(10, zoomLevel + delta * zoomLevel), 100);
+        setZoomLevel(Math.round(newZoom));
       }
     };
 
     document.addEventListener('wheel', handleWheel, { passive: false });
     return () => document.removeEventListener('wheel', handleWheel);
-  });
+  }, [zoomLevel, setZoomLevel]);
 
   const adjustZoom = (amount: number) => {
     setZoomLevel(Math.min(Math.max(10, zoomLevel + amount), 100));

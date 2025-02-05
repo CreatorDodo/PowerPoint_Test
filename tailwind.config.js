@@ -16,6 +16,15 @@ export default {
       animation: {
         slideIn: 'slideIn 0.2s ease-out',
       },
+      transitionProperty: {
+        transform: 'transform',
+      },
+      transitionTimingFunction: {
+        'zoom-ease': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      transitionDuration: {
+        zoom: '200ms',
+      },
     },
   },
   plugins: [],
