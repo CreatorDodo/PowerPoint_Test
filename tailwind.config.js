@@ -7,6 +7,15 @@ export default {
       fontFamily: {
         sans: ['Pretendard-Regular', 'system-ui', 'sans-serif'],
       },
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateX(-10px)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+      },
+      animation: {
+        slideIn: 'slideIn 0.2s ease-out',
+      },
     },
   },
   plugins: [],
