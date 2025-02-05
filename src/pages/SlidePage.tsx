@@ -1,4 +1,4 @@
-import { Header, RibbonTabs } from '../components/ui';
+import { Header, RibbonTabs, Footer, ZoomController } from '../components/ui';
 
 const SlidePage: React.FC = () => {
   return (
@@ -9,6 +9,9 @@ const SlidePage: React.FC = () => {
         />
       </Header>
       <div className="h-16 bg-gray-100"></div>
+      <Footer>
+        <ZoomController />
+      </Footer>
     </div>
   );
 };
