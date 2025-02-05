@@ -3,8 +3,11 @@ import ToolbarSection from './ToolbarSection';
 import ToolbarItem from './ToolbarItem';
 import ToolbarDivider from './ToolbarDivider';
 import { NewSlideIcon, TextIcon, ImageIcon, VideoIcon, RectangleIcon, CircleIcon } from '@/components/icons';
+import { useShapeStore } from '@/stores/useShapeStore';
 
-const InsertToolBar = () => {
+const InsertToolBar: React.FC = () => {
+  const { addShape } = useShapeStore();
+
   return (
     <BaseToolBar>
       <ToolbarSection label="슬라이드">
@@ -21,8 +24,16 @@ const InsertToolBar = () => {
       </ToolbarSection>
       <ToolbarDivider />
       <ToolbarSection label="도형">
-        <ToolbarItem icon={<RectangleIcon className="stroke-neutral-600" />} label="사각형" />
-        <ToolbarItem icon={<CircleIcon className="stroke-neutral-600" />} label="원" />
+        <ToolbarItem
+          icon={<RectangleIcon className="stroke-neutral-600" />}
+          label="사각형"
+          onClick={() => addShape('rectangle')}
+        />
+        <ToolbarItem
+          icon={<CircleIcon className="stroke-neutral-600" />}
+          label="원"
+          onClick={() => addShape('circle')}
+        />
       </ToolbarSection>
       <ToolbarDivider />
     </BaseToolBar>
