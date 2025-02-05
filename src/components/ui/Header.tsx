@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
         </h1>
       </div>
       {children}
-      {renderToolBar()}
+      <div>{renderToolBar()}</div>
     </header>
   );
 };
