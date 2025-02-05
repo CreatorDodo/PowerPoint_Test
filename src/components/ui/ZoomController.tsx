@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
+import { useZoomStore } from '@/store/useZoomStore';
 
 const ZoomController: React.FC = () => {
-  const [zoomLevel, setZoomLevel] = useState(48);
+  const { zoomLevel, setZoomLevel } = useZoomStore();
   const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
@@ -15,10 +16,10 @@ const ZoomController: React.FC = () => {
 
     document.addEventListener('wheel', handleWheel, { passive: false });
     return () => document.removeEventListener('wheel', handleWheel);
-  }, []);
+  });
 
   const adjustZoom = (amount: number) => {
-    setZoomLevel((prev) => Math.min(Math.max(10, prev + amount), 100));
+    setZoomLevel(Math.min(Math.max(10, zoomLevel + amount), 100));
   };
 
   const handleSliderClick = (e: React.MouseEvent<HTMLSpanElement>) => {
