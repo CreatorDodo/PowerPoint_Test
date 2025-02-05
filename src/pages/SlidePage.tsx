@@ -1,4 +1,4 @@
-import { Header, RibbonTabs, Footer, ZoomController, Main, Canvas } from '../components/ui';
+import { Header, RibbonTabs, Footer, ZoomController, Main, Canvas } from '@/components/ui';
 
 const SlidePage: React.FC = () => {
   return (
@@ -25,4 +25,5 @@ const SlidePage: React.FC = () => {
     </div>
   );
 };
+
 export default SlidePage;
