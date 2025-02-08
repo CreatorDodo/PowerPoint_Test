@@ -16,20 +16,17 @@ export const useShapeStore = create<ShapeStore>((set) => ({
 
     const id = Date.now();
 
-    const randomX = getRandomNumber(0, canvasWidth);
-    const randomY = getRandomNumber(0, canvasHeight);
+    const randomX = getRandomNumber(0, canvasWidth + 100);
+    const randomY = getRandomNumber(0, canvasHeight + 100);
     const common = {
       id,
-      // 좌상단 기준 저장: Canvas에서는 center로 보정
       x: randomX,
       y: randomY,
       color: getRandomColor(),
       borderColor: getRandomColor(),
     };
-    // 캔버스 크기 (SlidePage/Canvas에서 사용한 것과 동일)
 
     if (type === 'rectangle') {
-      // 도형 크기 먼저 생성
       const width = getRandomNumber(50, 300);
       const height = getRandomNumber(50, 300);
 
@@ -41,7 +38,6 @@ export const useShapeStore = create<ShapeStore>((set) => ({
       };
       set((state) => ({ shapes: [...state.shapes, newShape] }));
     } else {
-      // 원의 경우, 반지름 먼저 생성
       const radius = getRandomNumber(25, 200);
 
       const newShape: Shape = {
