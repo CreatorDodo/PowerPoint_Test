@@ -1,6 +1,8 @@
 import { useZoomStore } from '@/stores/useZoomStore';
 import { useShapeStore } from '@/stores/useShapeStore';
+import { useCanvasStore } from '@/stores/useCanvasStore';
 import { Shape } from '@/components/Shape';
+import { useRef, useEffect } from 'react';
 
 const Canvas: React.FC = () => {
   const { shapes, updateShape } = useShapeStore();
@@ -8,6 +10,12 @@ const Canvas: React.FC = () => {
   const scale = zoomLevel / 100;
   const canvasWidth = 1600;
   const canvasHeight = 900;
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const setCanvasRef = useCanvasStore((state) => state.setCanvasRef);
+
+  useEffect(() => {
+    setCanvasRef(canvasRef);
+  }, [setCanvasRef]);
 
   const handleDrag = (id: number, newX: number, newY: number) => {
     updateShape(id, newX, newY);
@@ -16,6 +24,7 @@ const Canvas: React.FC = () => {
   return (
     <div className="absolute z-0 flex h-full w-full flex-col items-center justify-center overflow-auto pb-3">
       <div
+        ref={canvasRef}
         className="relative rounded-lg border border-neutral-300 bg-white shadow-xl"
         style={{
           width: `${canvasWidth}px`,

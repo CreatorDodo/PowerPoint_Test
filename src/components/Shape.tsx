@@ -1,6 +1,6 @@
 import Draggable from 'react-draggable';
 import { Shape as ShapeType } from '@/types/shape.interface';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface ShapeProps {
   shape: ShapeType;
@@ -10,6 +10,7 @@ interface ShapeProps {
 
 export const Shape: React.FC<ShapeProps> = ({ shape, scale, onDrag }) => {
   const [isDragging, setIsDragging] = useState(false);
+  const nodeRef = useRef<HTMLDivElement>(null);
 
   const handleDrag = (_: any, data: { x: number; y: number }) => {
     onDrag(shape.id, data.x, data.y);
@@ -25,6 +26,7 @@ export const Shape: React.FC<ShapeProps> = ({ shape, scale, onDrag }) => {
   if (shape.type === 'rectangle') {
     return (
       <Draggable
+        nodeRef={nodeRef}
         position={{ x: shape.x, y: shape.y }}
         onDrag={handleDrag}
         scale={scale}
@@ -32,6 +34,7 @@ export const Shape: React.FC<ShapeProps> = ({ shape, scale, onDrag }) => {
         onStop={() => setIsDragging(false)}
       >
         <div
+          ref={nodeRef}
           style={{
             ...shapeStyle,
             width: shape.width,
@@ -44,6 +47,7 @@ export const Shape: React.FC<ShapeProps> = ({ shape, scale, onDrag }) => {
 
   return (
     <Draggable
+      nodeRef={nodeRef}
       position={{ x: shape.x, y: shape.y }}
       onDrag={handleDrag}
       scale={scale}
@@ -51,6 +55,7 @@ export const Shape: React.FC<ShapeProps> = ({ shape, scale, onDrag }) => {
       onStop={() => setIsDragging(false)}
     >
       <div
+        ref={nodeRef}
         style={{
           ...shapeStyle,
           width: shape.radius! * 2,
