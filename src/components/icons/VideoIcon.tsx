@@ -4,7 +4,7 @@ interface VideoIconProps extends React.SVGProps<SVGSVGElement> {
 
 const VideoIcon: React.FC<VideoIconProps> = ({ size = 24, className, ...props }) => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
+    xmlns="http:www.w3.org/2000/svg"
     width={size}
     height={size}
     viewBox="0 0 24 24"
